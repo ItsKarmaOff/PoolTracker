@@ -3,6 +3,8 @@
     "version": "1.0.0",
     "description": "Server for managing Epitech pool points",
     "main": "server.js",
+    "license": "MIT",
+    "author": "Christophe Vandevoir",
     "scripts": {
         "start": "node server.js",
         "dev": "nodemon server.js",
