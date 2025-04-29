@@ -1,3 +1,19 @@
+/**
+ * ┌────────────────────────────────────────────────────────────────────────────
+ * │ @author                    Christophe Vandevoir
+ * ├────────────────────────────────────────────────────────────────────────────
+ * │ @file           user.js
+ * │ @path          server/models/user.js
+ * │ @description   user implementation
+ * │ @version       1.0.0
+ * │
+ * │ @email         christophe.vandevoir@epitech.eu
+ * │ @date          2025-04-29
+ * ├────────────────────────────────────────────────────────────────────────────
+ * │ @copyright     (c) 2025 Christophe Vandevoir
+ * └────────────────────────────────────────────────────────────────────────────
+ */
+
 const { pool } = require('../config/database');
 const bcrypt = require('bcrypt');
 
