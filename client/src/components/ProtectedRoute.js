@@ -1,3 +1,19 @@
+/**
+ * ┌────────────────────────────────────────────────────────────────────────────
+ * │ @author                    Christophe Vandevoir
+ * ├────────────────────────────────────────────────────────────────────────────
+ * │ @file           ProtectedRoute.js
+ * │ @path          client/src/components/ProtectedRoute.js
+ * │ @description   ProtectedRoute implementation
+ * │ @version       1.0.0
+ * │
+ * │ @email         christophe.vandevoir@epitech.eu
+ * │ @date          2025-04-30
+ * ├────────────────────────────────────────────────────────────────────────────
+ * │ @copyright     (c) 2025 Christophe Vandevoir
+ * └────────────────────────────────────────────────────────────────────────────
+ */
+
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';

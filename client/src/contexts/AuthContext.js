@@ -1,3 +1,19 @@
+/**
+ * ┌────────────────────────────────────────────────────────────────────────────
+ * │ @author                    Christophe Vandevoir
+ * ├────────────────────────────────────────────────────────────────────────────
+ * │ @file           AuthContext.js
+ * │ @path          client/src/contexts/AuthContext.js
+ * │ @description   AuthContext implementation
+ * │ @version       1.0.0
+ * │
+ * │ @email         christophe.vandevoir@epitech.eu
+ * │ @date          2025-04-30
+ * ├────────────────────────────────────────────────────────────────────────────
+ * │ @copyright     (c) 2025 Christophe Vandevoir
+ * └────────────────────────────────────────────────────────────────────────────
+ */
+
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { authService } from '../services/api';
 
