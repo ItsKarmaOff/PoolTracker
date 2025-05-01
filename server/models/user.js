@@ -158,7 +158,7 @@ class User {
 
             return rows;
         } catch (error) {
-            console.error('Erreur lors de la récupération du top des étudiants:', error);
+            console.error('\x1b[31mError retrieving top students:\x1b[0m', error);
             throw error;
         }
     }
