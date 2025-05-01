@@ -1,0 +1,335 @@
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.admin-header h1 {
+    color: #0091D3;
+    margin: 0;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 992px) {
+    .admin-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.btn-add {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-add:hover {
+    background-color: #218838;
+}
+
+.form-container,
+.points-form {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.form-container h2,
+.points-form h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+    border-bottom: 2px solid #0091D3;
+    padding-bottom: 0.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 0.25rem;
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-save,
+.btn-cancel {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-save {
+    background-color: #0091D3;
+    color: white;
+}
+
+.btn-save:hover {
+    background-color: #33A7DC;
+}
+
+.btn-cancel {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.btn-cancel:hover {
+    background-color: #e9ecef;
+}
+
+.btn-save:disabled,
+.btn-cancel:disabled {
+    background-color: #6c757d;
+    color: white;
+    cursor: not-allowed;
+}
+
+.teams-list,
+.team-students,
+.students-summary {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+}
+
+.teams-list h2,
+.team-students h2,
+.students-summary h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+    border-bottom: 2px solid #0091D3;
+    padding-bottom: 0.5rem;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.data-table th {
+    background-color: #f5f5f5;
+    font-weight: 600;
+    color: #333;
+}
+
+.data-table tr {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.data-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.data-table tr.selected-row {
+    background-color: #e8f4fd;
+}
+
+.actions-cell {
+    white-space: nowrap;
+}
+
+.btn-edit,
+.btn-delete {
+    padding: 0.4rem 0.75rem;
+    margin-right: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-edit {
+    background-color: #0091D3;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #33A7DC;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.empty-message {
+    text-align: center;
+    padding: 1.5rem;
+    color: #666;
+    font-style: italic;
+}
+
+.empty-selection-message {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: #666;
+}
+
+.selected-student-info {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+}
+
+.selected-student-info p {
+    margin: 0.5rem 0;
+}
+
+.positive {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.negative {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Styles de couleurs pour les équipes */
+.team-color-red {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.team-color-green {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.team-color-blue {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.team-color-yellow {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.team-color-none {
+    color: #6c757d;
+    font-weight: bold;
+}
+
+.color-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.color-dot-red {
+    background-color: #dc3545;
+}
+
+.color-dot-green {
+    background-color: #28a745;
+}
+
+.color-dot-blue {
+    background-color: #007bff;
+}
+
+.color-dot-yellow {
+    background-color: #ffc107;
+}
+
+.color-dot-none {
+    background-color: #6c757d;
+}
+
+.color-select {
+    padding-left: 30px !important;
+    position: relative;
+    background-position: 10px center;
+    background-repeat: no-repeat;
+    background-size: 12px 12px;
+}
+
+.color-select-red {
+    border-left: 5px solid #dc3545 !important;
+}
+
+.color-select-green {
+    border-left: 5px solid #28a745 !important;
+}
+
+.color-select-blue {
+    border-left: 5px solid #007bff !important;
+}
+
+.color-select-yellow {
+    border-left: 5px solid #ffc107 !important;
+}
+
+.color-select-none {
+    border-left: 5px solid #6c757d !important;
+}
