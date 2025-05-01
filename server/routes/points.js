@@ -17,14 +17,14 @@
 const express = require('express');
 const router = express.Router();
 const pointController = require('../controllers/pointController');
-const { authenticateJWT, isAdmin, isAdminOrSelf } = require('../middlewares/auth');
+const { authenticateJWT, canManagePoints, isAuthorizedOrSelf } = require('../middlewares/auth');
 
-// Routes reserved for administrators
-router.post('/', authenticateJWT, isAdmin, pointController.addPoints);
-router.get('/summary', authenticateJWT, isAdmin, pointController.getAllStudentsPointsSummary);
+// Routes for point management (accessible by ADMIN, APE, and AER)
+router.post('/', authenticateJWT, canManagePoints, pointController.addPoints);
+router.get('/summary', authenticateJWT, canManagePoints, pointController.getAllStudentsPointsSummary);
 
-// Routes accessible by administrator or the student themselves
-router.get('/user/:userId/history', authenticateJWT, isAdminOrSelf, pointController.getPointsHistory);
-router.get('/user/:userId/total', authenticateJWT, isAdminOrSelf, pointController.getTotalPoints);
+// Routes accessible by authorized staff or the student themselves
+router.get('/user/:userId/history', authenticateJWT, isAuthorizedOrSelf, pointController.getPointsHistory);
+router.get('/user/:userId/total', authenticateJWT, isAuthorizedOrSelf, pointController.getTotalPoints);
 
 module.exports = router;

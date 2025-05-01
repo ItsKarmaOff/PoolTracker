@@ -40,6 +40,31 @@ class User {
         }
     }
 
+    // Get all users
+    static async getAll() {
+        try {
+            const [rows] = await pool.query('SELECT * FROM USERS ORDER BY role, firstName, lastName');
+            return rows;
+        } catch (error) {
+            console.error('\x1b[31mError retrieving all users:\x1b[0m', error);
+            throw error;
+        }
+    }
+
+    // Get all users by role
+    static async getAllByRole(role) {
+        try {
+            const [rows] = await pool.query(
+                'SELECT * FROM USERS WHERE role = ? ORDER BY firstName, lastName',
+                [role]
+            );
+            return rows;
+        } catch (error) {
+            console.error('\x1b[31mError retrieving users by role:\x1b[0m', error);
+            throw error;
+        }
+    }
+
     // Create a new user
     static async create(userData) {
         try {
@@ -133,7 +158,7 @@ class User {
 
             return rows;
         } catch (error) {
-            console.error('Erreur lors de la récupération du top des étudiants:', error);
+            console.error('\x1b[31mError retrieving top students:\x1b[0m', error);
             throw error;
         }
     }

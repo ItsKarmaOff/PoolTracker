@@ -60,6 +60,72 @@ export const authService = {
     }
 };
 
+export const userService = {
+    getAllUsers: async () => {
+        const response = await api.get('/users');
+        return response.data.users;
+    },
+
+    getUsersByRole: async (role) => {
+        const response = await api.get(`/users/by-role/${role}`);
+        return response.data.users;
+    },
+
+    // Admin user management
+    createAdmin: async (userData) => {
+        const response = await api.post('/users/admin', userData);
+        return response.data;
+    },
+
+    updateAdmin: async (id, userData) => {
+        const response = await api.put(`/users/admin/${id}`, userData);
+        return response.data;
+    },
+
+    deleteAdmin: async (id) => {
+        const response = await api.delete(`/users/admin/${id}`);
+        return response.data;
+    },
+
+    // APE user management
+    createAPE: async (userData) => {
+        const response = await api.post('/users/ape', userData);
+        return response.data;
+    },
+
+    updateAPE: async (id, userData) => {
+        const response = await api.put(`/users/ape/${id}`, userData);
+        return response.data;
+    },
+
+    deleteAPE: async (id) => {
+        const response = await api.delete(`/users/ape/${id}`);
+        return response.data;
+    },
+
+    // AER user management
+    createAER: async (userData) => {
+        const response = await api.post('/users/aer', userData);
+        return response.data;
+    },
+
+    updateAER: async (id, userData) => {
+        const response = await api.put(`/users/aer/${id}`, userData);
+        return response.data;
+    },
+
+    deleteAER: async (id) => {
+        const response = await api.delete(`/users/aer/${id}`);
+        return response.data;
+    },
+
+    // Generic user management (including role changes)
+    updateUser: async (id, userData) => {
+        const response = await api.put(`/users/${id}`, userData);
+        return response.data;
+    }
+};
+
 export const teamService = {
     getAllTeams: async () => {
         const response = await api.get('/teams');
