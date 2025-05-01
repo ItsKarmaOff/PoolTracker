@@ -333,3 +333,59 @@
 .color-select-none {
     border-left: 5px solid #6c757d !important;
 }
+
+.admin-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.filter-select {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: white;
+    min-width: 150px;
+}
+
+.add-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.form-help {
+    display: block;
+    margin-top: 0.25rem;
+    color: #dc3545;
+    font-size: 0.85rem;
+}
+
+.role-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.role-badge-ADMIN {
+    background-color: #dc3545;
+    color: white;
+}
+
+.role-badge-APE {
+    background-color: #fd7e14;
+    color: white;
+}
+
+.role-badge-AER {
+    background-color: #28a745;
+    color: white;
+}
+
+.role-badge-STUDENT {
+    background-color: #007bff;
+    color: white;
+}

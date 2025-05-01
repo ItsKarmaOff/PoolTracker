@@ -16,7 +16,7 @@
 
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import ProtectedRoute from './components/ProtectedRoute';
+import { useAuth } from './contexts/AuthContext';
 
 // Public pages
 import Login from './pages/Login';
@@ -27,9 +27,34 @@ import StudentProfile from './pages/StudentProfile';
 import TeamDetails from './pages/TeamDetails';
 
 // Admin pages
+import AdminUsers from './pages/admin/AdminUsers';
 import AdminStudents from './pages/admin/AdminStudents';
 import AdminTeams from './pages/admin/AdminTeams';
 import AdminPoints from './pages/admin/AdminPoints';
+
+// Protected route component with role-based access
+const ProtectedRoute = ({ children, requiredRoles = [] }) => {
+    const { isAuthenticated, loading, user } = useAuth();
+
+    if (loading) {
+        return (
+            <div className="loading-container">
+                <div className="spinner"></div>
+                <p>Loading...</p>
+            </div>
+        );
+    }
+
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />;
+    }
+
+    if (requiredRoles.length > 0 && !requiredRoles.includes(user.role)) {
+        return <Navigate to="/" replace />;
+    }
+
+    return children;
+};
 
 const AppRoutes = () => {
     return (
@@ -65,11 +90,20 @@ const AppRoutes = () => {
                 }
             />
 
-            {/* Admin routes */}
+            {/* Admin routes - only accessible by ADMIN and APE */}
+            <Route
+                path="/admin/users"
+                element={
+                    <ProtectedRoute requiredRoles={['ADMIN', 'APE']}>
+                        <AdminUsers />
+                    </ProtectedRoute>
+                }
+            />
+
             <Route
                 path="/admin/students"
                 element={
-                    <ProtectedRoute adminOnly={true}>
+                    <ProtectedRoute requiredRoles={['ADMIN', 'APE']}>
                         <AdminStudents />
                     </ProtectedRoute>
                 }
@@ -78,16 +112,17 @@ const AppRoutes = () => {
             <Route
                 path="/admin/teams"
                 element={
-                    <ProtectedRoute adminOnly={true}>
+                    <ProtectedRoute requiredRoles={['ADMIN', 'APE']}>
                         <AdminTeams />
                     </ProtectedRoute>
                 }
             />
 
+            {/* Points management - accessible by ADMIN, APE, and AER */}
             <Route
                 path="/admin/points"
                 element={
-                    <ProtectedRoute adminOnly={true}>
+                    <ProtectedRoute requiredRoles={['ADMIN', 'APE', 'AER']}>
                         <AdminPoints />
                     </ProtectedRoute>
                 }

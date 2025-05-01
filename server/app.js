@@ -46,12 +46,14 @@ const authRoutes = require('./routes/auth');
 const teamRoutes = require('./routes/teams');
 const studentRoutes = require('./routes/students');
 const pointRoutes = require('./routes/points');
+const userRoutes = require('./routes/users');
 
 // Use routes
 app.use('/api/auth', authRoutes);
 app.use('/api/teams', teamRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/points', pointRoutes);
+app.use('/api/users', userRoutes);
 
 // Default route
 app.get('/', (req, res) => {

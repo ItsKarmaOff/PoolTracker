@@ -87,6 +87,13 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     };
 
+    // Check user role permissions
+    const hasRole = (roles) => {
+        if (!user) return false;
+        if (typeof roles === 'string') return user.role === roles;
+        return roles.includes(user.role);
+    };
+
     // Context value
     const value = {
         user,
@@ -96,7 +103,13 @@ export const AuthProvider = ({ children }) => {
         logout,
         setPassword,
         isAuthenticated: !!user,
-        isAdmin: user?.role === 'ADMIN'
+        isAdmin: user?.role === 'ADMIN',
+        isAPE: user?.role === 'APE',
+        isAER: user?.role === 'AER',
+        isStudent: user?.role === 'STUDENT',
+        hasAdminPrivileges: user?.role === 'ADMIN' || user?.role === 'APE',
+        canManagePoints: ['ADMIN', 'APE', 'AER'].includes(user?.role),
+        hasRole
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

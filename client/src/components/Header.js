@@ -20,12 +20,20 @@ import { useAuth } from '../contexts/AuthContext';
 import './Header.css';
 
 const Header = () => {
-    const { user, isAuthenticated, isAdmin, logout } = useAuth();
+    const { user, isAuthenticated, isAdmin, isAPE, isAER, hasAdminPrivileges, canManagePoints, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = () => {
         logout();
         navigate('/login');
+    };
+
+    // Helper function to get role display name
+    const getRoleDisplay = () => {
+        if (isAdmin) return 'Admin';
+        if (isAPE) return 'APE';
+        if (isAER) return 'AER';
+        return 'Student';
     };
 
     return (
@@ -40,18 +48,24 @@ const Header = () => {
                         <li>
                             <Link to="/">Home</Link>
                         </li>
-                        {isAdmin ? (
+                        {hasAdminPrivileges ? (
                             <>
+                                <li>
+                                    <Link to="/admin/users">Users</Link>
+                                </li>
                                 <li>
                                     <Link to="/admin/students">Students</Link>
                                 </li>
                                 <li>
                                     <Link to="/admin/teams">Teams</Link>
                                 </li>
-                                <li>
-                                    <Link to="/admin/points">Points</Link>
-                                </li>
                             </>
+                        ) : null}
+
+                        {canManagePoints ? (
+                            <li>
+                                <Link to="/admin/points">Points</Link>
+                            </li>
                         ) : (
                             <li>
                                 <Link to="/profile">My Profile</Link>
@@ -61,7 +75,7 @@ const Header = () => {
 
                     <div className="user-info">
                         <span>
-                            {user.firstName} {user.lastName} ({isAdmin ? 'Admin' : 'Student'})
+                            {user.firstName} {user.lastName} ({getRoleDisplay()})
                         </span>
                         <button className="logout-btn" onClick={handleLogout}>
                             Logout

@@ -38,7 +38,7 @@ async function initDatabase() {
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 email VARCHAR(255) UNIQUE NOT NULL,
                 password VARCHAR(255),
-                role ENUM('STUDENT', 'ADMIN') NOT NULL DEFAULT 'STUDENT',
+                role ENUM('ADMIN', 'APE', 'AER', 'STUDENT') NOT NULL DEFAULT 'STUDENT',
                 firstName VARCHAR(100),
                 lastName VARCHAR(100),
                 isFirstLogin BOOLEAN DEFAULT TRUE,
