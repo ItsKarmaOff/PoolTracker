@@ -41,8 +41,8 @@ const HomePage = () => {
 
                 setTopStudentsByTeam(topStudentsData);
             } catch (error) {
-                console.error('Erreur lors du chargement des données:', error);
-                toast.error('Erreur lors du chargement des données');
+                console.error('\x1b[31mError loading data:\x1b[0m', error);
+                toast.error('Error loading data');
             } finally {
                 setLoading(false);
             }
@@ -55,7 +55,7 @@ const HomePage = () => {
         return (
             <div className="loading-container">
                 <div className="spinner"></div>
-                <p>Chargement des données...</p>
+                <p>loading data...</p>
             </div>
         );
     }
