@@ -33,3 +33,6 @@ coverage/
 
 # Others
 *.tgz
+
+# Docker MySQL data
+db/
