@@ -64,6 +64,11 @@ const Header = () => {
                                 <li>
                                     <Link to="/admin/teams">Teams</Link>
                                 </li>
+                                {canManagePoints && (
+                                    <li>
+                                        <Link to="/admin/history">History</Link>
+                                    </li>
+                                )}
                             </>
                         ) : null}
 

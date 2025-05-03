@@ -22,6 +22,7 @@ const { authenticateJWT, canManagePoints, isAuthorizedOrSelf } = require('../mid
 // Routes for point management (accessible by ADMIN, APE, and AER)
 router.post('/', authenticateJWT, canManagePoints, pointController.addPoints);
 router.get('/summary', authenticateJWT, canManagePoints, pointController.getAllStudentsPointsSummary);
+router.get('/history', authenticateJWT, canManagePoints, pointController.getAllPointsHistory);
 
 // Routes accessible by authorized staff or the student themselves
 router.get('/user/:userId/history', authenticateJWT, isAuthorizedOrSelf, pointController.getPointsHistory);

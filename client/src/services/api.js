@@ -224,6 +224,11 @@ export const pointService = {
     getAllStudentsPointsSummary: async () => {
         const response = await api.get('/points/summary');
         return response.data.summary;
+    },
+
+    getAllPointsHistory: async () => {
+        const response = await api.get('/points/history');
+        return response.data.history;
     }
 };
 

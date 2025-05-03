@@ -108,3 +108,17 @@ exports.getAllStudentsPointsSummary = async (req, res) => {
         res.status(500).json({ message: 'Server error while retrieving points summary' });
     }
 };
+
+// Get all points history across all students
+exports.getAllPointsHistory = async (req, res) => {
+    try {
+        const history = await Point.getAllPointsHistory();
+
+        res.status(200).json({
+            history
+        });
+    } catch (error) {
+        console.error('\x1b[31mError retrieving all points history:\x1b[0m', error);
+        res.status(500).json({ message: 'Server error while retrieving points history' });
+    }
+};

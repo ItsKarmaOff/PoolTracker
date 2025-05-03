@@ -91,6 +91,26 @@ class Point {
             throw error;
         }
     }
+
+    // Get the complete history of all points transactions
+    static async getAllPointsHistory() {
+        try {
+            const [rows] = await pool.query(`
+                SELECT p.id, p.value, p.reason, p.createdAt,
+                s.firstName as studentFirstName, s.lastName as studentLastName, s.email as studentEmail,
+                a.firstName as adminFirstName, a.lastName as adminLastName
+                FROM POINTS p
+                JOIN USERS s ON p.userId = s.id
+                JOIN USERS a ON p.adminId = a.id
+                ORDER BY p.createdAt DESC
+            `);
+
+            return rows;
+        } catch (error) {
+            console.error('\x1b[31mError while retrieving all points history:\x1b[0m', error);
+            throw error;
+        }
+    }
 }
 
 module.exports = Point;
