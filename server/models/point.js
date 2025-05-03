@@ -81,7 +81,7 @@ class Point {
                 LEFT JOIN USER_TEAMS ut ON u.id = ut.userId
                 LEFT JOIN TEAMS t ON ut.teamId = t.id
                 WHERE u.role = "STUDENT"
-                GROUP BY u.id
+                GROUP BY u.id, u.email, u.firstName, u.lastName, t.id, t.name
                 ORDER BY totalPoints DESC
             `);
 

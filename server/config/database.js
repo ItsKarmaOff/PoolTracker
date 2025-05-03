@@ -90,7 +90,8 @@ async function initDatabase() {
 
         // If no admin accounts exist, create a default admin account
         if (admins.length === 0) {
-            const bcrypt = require('bcrypt');
+            // const bcrypt = require('bcrypt');
+            const bcrypt = require('bcryptjs');
             const hashedPassword = await bcrypt.hash('admin123', 10);
 
             await pool.query(`

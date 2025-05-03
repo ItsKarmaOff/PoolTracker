@@ -44,7 +44,7 @@ class User {
     // Get all users
     static async getAll() {
         try {
-            const [rows] = await pool.query('SELECT * FROM USERS ORDER BY role, firstName, lastName');
+            const [rows] = await pool.query('SELECT * FROM USERS ORDER BY role, email ASC, firstName ASC, lastName ASC');
             return rows;
         } catch (error) {
             console.error('\x1b[31mError retrieving all users:\x1b[0m', error);
@@ -135,7 +135,7 @@ class User {
     // Get all students
     static async getAllStudents() {
         try {
-            const [rows] = await pool.query('SELECT id, email, firstName, lastName, createdAt FROM USERS WHERE role = "STUDENT" ORDER BY lastName ASC, firstName ASC');
+            const [rows] = await pool.query('SELECT id, email, firstName, lastName, createdAt FROM USERS WHERE role = "STUDENT" ORDER BY email ASC, lastName ASC, firstName ASC');
             return rows;
         } catch (error) {
             console.error('\x1b[31mError retrieving students:\x1b[0m', error);
