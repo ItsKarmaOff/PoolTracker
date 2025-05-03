@@ -48,6 +48,11 @@ const Header = () => {
                         <li>
                             <Link to="/">Home</Link>
                         </li>
+                        {isAdmin && (
+                            <li>
+                                <Link to="/dashboard">Dashboard</Link>
+                            </li>
+                        )}
                         {hasAdminPrivileges ? (
                             <>
                                 <li>

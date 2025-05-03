@@ -25,6 +25,7 @@ import Login from './pages/Login';
 import HomePage from './pages/HomePage';
 import StudentProfile from './pages/StudentProfile';
 import TeamDetails from './pages/TeamDetails';
+import Dashboard from './pages/Dashboard';
 
 // Admin pages
 import AdminUsers from './pages/admin/AdminUsers';
@@ -86,6 +87,16 @@ const AppRoutes = () => {
                 element={
                     <ProtectedRoute>
                         <TeamDetails />
+                    </ProtectedRoute>
+                }
+            />
+
+            {/* Dashboard route - only accessible by ADMIN */}
+            <Route
+                path="/dashboard"
+                element={
+                    <ProtectedRoute requiredRoles={['ADMIN']}>
+                        <Dashboard />
                     </ProtectedRoute>
                 }
             />
