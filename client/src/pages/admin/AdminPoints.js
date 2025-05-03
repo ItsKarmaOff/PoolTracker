@@ -24,13 +24,14 @@ const AdminPoints = () => {
     const [pointsSummary, setPointsSummary] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedStudent, setSelectedStudent] = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
+    const [pointAction, setPointAction] = useState('add');
 
     const [formData, setFormData] = useState({
         value: 0,
         reason: ''
     });
-
-    const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
         const fetchPointsSummary = async () => {
@@ -48,20 +49,47 @@ const AdminPoints = () => {
         fetchPointsSummary();
     }, []);
 
-    const handleSelectStudent = (student) => {
+    const handleAddPoints = (student, event) => {
         setSelectedStudent(student);
+        setPointAction('add');
         setFormData({
-            value: 0,
+            value: 1, // Default to positive value
             reason: ''
         });
-        setShowForm(true);
+
+        // Calculate popup position
+        const rect = event.target.getBoundingClientRect();
+        setPopupPosition({
+            top: window.scrollY + rect.bottom + 10,
+            left: window.scrollX + rect.left
+        });
+
+        setShowPopup(true);
+    };
+
+    const handleRemovePoints = (student, event) => {
+        setSelectedStudent(student);
+        setPointAction('remove');
+        setFormData({
+            value: 1,
+            reason: ''
+        });
+
+        // Calculate popup position
+        const rect = event.target.getBoundingClientRect();
+        setPopupPosition({
+            top: window.scrollY + rect.bottom + 10,
+            left: window.scrollX + rect.left
+        });
+
+        setShowPopup(true);
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: name === 'value' ? parseInt(value, 10) || 0 : value
+            [name]: name === 'value' ? Math.abs(parseInt(value, 10)) || 0 : value
         });
     };
 
@@ -81,9 +109,11 @@ const AdminPoints = () => {
         try {
             setLoading(true);
 
+            const pointValue = pointAction === 'add' ? formData.value : -formData.value;
+
             await pointService.addPoints({
                 userId: selectedStudent.id,
-                value: formData.value,
+                value: pointValue,
                 reason: formData.reason
             });
 
@@ -91,12 +121,12 @@ const AdminPoints = () => {
             setPointsSummary(updatedSummary);
 
             toast.success(
-                formData.value > 0
+                pointAction === 'add'
                     ? `${formData.value} points added to ${selectedStudent.firstName} ${selectedStudent.lastName}`
-                    : `${Math.abs(formData.value)} points removed from ${selectedStudent.firstName} ${selectedStudent.lastName}`
+                    : `${formData.value} points removed from ${selectedStudent.firstName} ${selectedStudent.lastName}`
             );
 
-            setShowForm(false);
+            setShowPopup(false);
             setSelectedStudent(null);
             setFormData({
                 value: 0,
@@ -111,7 +141,7 @@ const AdminPoints = () => {
     };
 
     const handleCancel = () => {
-        setShowForm(false);
+        setShowPopup(false);
         setSelectedStudent(null);
         setFormData({
             value: 0,
@@ -134,57 +164,65 @@ const AdminPoints = () => {
                 <h1>Points Management</h1>
             </div>
 
-            <div className="admin-grid">
-                <div className="students-summary">
-                    <h2>Points Summary Table</h2>
-                    <div className="table-container">
-                        <table className="data-table">
-                            <thead>
-                                <tr>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Email</th>
-                                    <th>Team</th>
-                                    <th>Points</th>
-                                    <th>Actions</th>
+            <div className="students-summary">
+                <h2>Points Summary Table</h2>
+                <div className="table-container">
+                    <table className="data-table">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Team</th>
+                                <th>Points</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {pointsSummary.map(student => (
+                                <tr key={student.id}>
+                                    <td>{student.firstName || '-'}</td>
+                                    <td>{student.lastName || '-'}</td>
+                                    <td>{student.email}</td>
+                                    <td>{student.teamName || '-'}</td>
+                                    <td className={student.totalPoints >= 0 ? 'positive' : 'negative'}>
+                                        {student.totalPoints}
+                                    </td>
+                                    <td className="actions-cell">
+                                        <button
+                                            className="btn-add points-btn"
+                                            onClick={(e) => handleAddPoints(student, e)}
+                                        >
+                                            Add points
+                                        </button>
+                                        <button
+                                            className="btn-delete points-btn"
+                                            onClick={(e) => handleRemovePoints(student, e)}
+                                        >
+                                            Remove points
+                                        </button>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {pointsSummary.map(student => (
-                                    <tr key={student.id}>
-                                        <td>{student.firstName || '-'}</td>
-                                        <td>{student.lastName || '-'}</td>
-                                        <td>{student.email}</td>
-                                        <td>{student.teamName || '-'}</td>
-                                        <td className={student.totalPoints >= 0 ? 'positive' : 'negative'}>
-                                            {student.totalPoints}
-                                        </td>
-                                        <td className="actions-cell">
-                                            <button
-                                                className="btn-edit"
-                                                onClick={() => handleSelectStudent(student)}
-                                            >
-                                                Add/Remove points
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
+                            ))}
 
-                                {pointsSummary.length === 0 && (
-                                    <tr>
-                                        <td colSpan="6" className="empty-message">
-                                            No students have been created yet.
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                            {pointsSummary.length === 0 && (
+                                <tr>
+                                    <td colSpan="6" className="empty-message">
+                                        No students have been created yet.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
                 </div>
+            </div>
 
-                {showForm && selectedStudent && (
+            {showPopup && selectedStudent && (
+                <div className="points-popup" style={{ top: `${popupPosition.top}px`, left: `${popupPosition.left}px` }}>
                     <div className="points-form">
-                        <h2>Add/Remove points</h2>
+                        <h2>
+                            {pointAction === 'add' ? 'Add points' : 'Remove points'}
+                        </h2>
                         <div className="selected-student-info">
                             <p>
                                 <strong>Student:</strong> {selectedStudent.firstName} {selectedStudent.lastName}
@@ -206,10 +244,13 @@ const AdminPoints = () => {
                                     name="value"
                                     value={formData.value}
                                     onChange={handleChange}
+                                    min="1"
                                     required
                                 />
                                 <small>
-                                    Positive value to add points, negative value to remove them.
+                                    {pointAction === 'add'
+                                        ? 'Enter the number of points to add.'
+                                        : 'Enter the number of points to remove.'}
                                 </small>
                             </div>
 
@@ -221,13 +262,13 @@ const AdminPoints = () => {
                                     value={formData.reason}
                                     onChange={handleChange}
                                     rows="3"
-                                    placeholder="Explain why you are adding/removing points"
+                                    placeholder={`Explain why you are ${pointAction === 'add' ? 'adding' : 'removing'} points`}
                                 ></textarea>
                             </div>
 
                             <div className="form-actions">
-                                <button type="submit" className="btn-save" disabled={loading}>
-                                    {loading ? 'Saving...' : 'Saved'}
+                                <button type="submit" className={`btn-save ${pointAction === 'add' ? 'btn-add-points' : 'btn-remove-points'}`} disabled={loading}>
+                                    {loading ? 'Processing...' : pointAction === 'add' ? 'Add points' : 'Remove points'}
                                 </button>
                                 <button
                                     type="button"
@@ -240,8 +281,8 @@ const AdminPoints = () => {
                             </div>
                         </form>
                     </div>
-                )}
-            </div>
+                </div>
+            )}
         </div>
     );
 };

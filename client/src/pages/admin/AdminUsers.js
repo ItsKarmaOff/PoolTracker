@@ -25,6 +25,8 @@ const AdminUsers = () => {
     const [users, setUsers] = useState([]);
     const [selectedUserType, setSelectedUserType] = useState('all');
     const [loading, setLoading] = useState(true);
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
 
     const [formData, setFormData] = useState({
         id: null,
@@ -35,7 +37,6 @@ const AdminUsers = () => {
         originalRole: null
     });
 
-    const [showForm, setShowForm] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
@@ -67,7 +68,7 @@ const AdminUsers = () => {
         });
     };
 
-    const handleAddUser = (role) => {
+    const handleAddUser = (role, event) => {
         setFormData({
             id: null,
             email: '',
@@ -77,10 +78,18 @@ const AdminUsers = () => {
             originalRole: null
         });
         setIsEditing(false);
-        setShowForm(true);
+
+        // Position the popup below the header area for new users
+        const headerHeight = document.querySelector('.admin-header').offsetHeight;
+        setPopupPosition({
+            top: window.scrollY + headerHeight + 20,
+            left: window.innerWidth / 2 - 200  // Center horizontally (roughly)
+        });
+
+        setShowPopup(true);
     };
 
-    const handleEditUser = (user) => {
+    const handleEditUser = (user, event) => {
         setFormData({
             id: user.id,
             email: user.email,
@@ -90,7 +99,15 @@ const AdminUsers = () => {
             originalRole: user.role
         });
         setIsEditing(true);
-        setShowForm(true);
+
+        // Calculate popup position near the edit button
+        const rect = event.target.getBoundingClientRect();
+        setPopupPosition({
+            top: window.scrollY + rect.bottom + 10,
+            left: window.scrollX + rect.left
+        });
+
+        setShowPopup(true);
     };
 
     const handleSubmit = async (e) => {
@@ -159,7 +176,7 @@ const AdminUsers = () => {
             }
             setUsers(updatedUsers);
 
-            setShowForm(false);
+            setShowPopup(false);
             setFormData({
                 id: null,
                 email: '',
@@ -222,6 +239,18 @@ const AdminUsers = () => {
         setSelectedUserType(e.target.value);
     };
 
+    const handleCancel = () => {
+        setShowPopup(false);
+        setFormData({
+            id: null,
+            email: '',
+            firstName: '',
+            lastName: '',
+            role: 'STUDENT',
+            originalRole: null
+        });
+    };
+
     // Check if user can manage this type of account
     const canManageAccountType = (role) => {
         if (isAdmin) return true;
@@ -260,13 +289,13 @@ const AdminUsers = () => {
                             <>
                                 <button
                                     className="btn-add"
-                                    onClick={() => handleAddUser('ADMIN')}
+                                    onClick={(e) => handleAddUser('ADMIN', e)}
                                 >
                                     Add Admin
                                 </button>
                                 <button
                                     className="btn-add"
-                                    onClick={() => handleAddUser('APE')}
+                                    onClick={(e) => handleAddUser('APE', e)}
                                 >
                                     Add APE
                                 </button>
@@ -274,96 +303,19 @@ const AdminUsers = () => {
                         )}
                         <button
                             className="btn-add"
-                            onClick={() => handleAddUser('AER')}
+                            onClick={(e) => handleAddUser('AER', e)}
                         >
                             Add AER
                         </button>
                         <button
                             className="btn-add"
-                            onClick={() => handleAddUser('STUDENT')}
+                            onClick={(e) => handleAddUser('STUDENT', e)}
                         >
                             Add Student
                         </button>
                     </div>
                 </div>
             </div>
-
-            {showForm && (
-                <div className="form-container">
-                    <h2>{isEditing ? `Edit ${formData.role}` : `Add New ${formData.role}`}</h2>
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <label htmlFor="email">Email *</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="firstName">First Name</label>
-                            <input
-                                type="text"
-                                id="firstName"
-                                name="firstName"
-                                value={formData.firstName}
-                                onChange={handleChange}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="lastName">Last Name</label>
-                            <input
-                                type="text"
-                                id="lastName"
-                                name="lastName"
-                                value={formData.lastName}
-                                onChange={handleChange}
-                            />
-                        </div>
-
-                        {isEditing && isAdmin && (
-                            <div className="form-group">
-                                <label htmlFor="role">User Role</label>
-                                <select
-                                    id="role"
-                                    name="role"
-                                    value={formData.role}
-                                    onChange={handleChange}
-                                >
-                                    <option value="ADMIN">Administrator</option>
-                                    <option value="APE">APE</option>
-                                    <option value="AER">AER</option>
-                                    <option value="STUDENT">Student</option>
-                                </select>
-                                {formData.originalRole === 'ADMIN' && (
-                                    <small className="form-help">
-                                        Warning: Changing the role of an administrator could impact system access.
-                                    </small>
-                                )}
-                            </div>
-                        )}
-
-                        <div className="form-actions">
-                            <button type="submit" className="btn-save" disabled={loading}>
-                                {loading ? 'Saving...' : 'Save'}
-                            </button>
-                            <button
-                                type="button"
-                                className="btn-cancel"
-                                onClick={() => setShowForm(false)}
-                                disabled={loading}
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            )}
 
             <div className="table-container">
                 <table className="data-table">
@@ -383,14 +335,16 @@ const AdminUsers = () => {
                                 <td>{user.email}</td>
                                 <td>{user.firstName || '-'}</td>
                                 <td>{user.lastName || '-'}</td>
-                                <td>{user.role}</td>
+                                <td>
+                                    <span className={`role-badge role-badge-${user.role}`}>{user.role}</span>
+                                </td>
                                 <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                                 <td className="actions-cell">
                                     {canManageAccountType(user.role) && (
                                         <>
                                             <button
                                                 className="btn-edit"
-                                                onClick={() => handleEditUser(user)}
+                                                onClick={(e) => handleEditUser(user, e)}
                                             >
                                                 Edit
                                             </button>
@@ -416,6 +370,85 @@ const AdminUsers = () => {
                     </tbody>
                 </table>
             </div>
+
+            {showPopup && (
+                <div className="user-popup" style={{ top: `${popupPosition.top}px`, left: `${popupPosition.left}px` }}>
+                    <div className="form-container">
+                        <h2>{isEditing ? `Edit ${formData.role}` : `Add New ${formData.role}`}</h2>
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <label htmlFor="email">Email *</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="firstName">First Name</label>
+                                <input
+                                    type="text"
+                                    id="firstName"
+                                    name="firstName"
+                                    value={formData.firstName}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="lastName">Last Name</label>
+                                <input
+                                    type="text"
+                                    id="lastName"
+                                    name="lastName"
+                                    value={formData.lastName}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
+                            {isEditing && isAdmin && (
+                                <div className="form-group">
+                                    <label htmlFor="role">User Role</label>
+                                    <select
+                                        id="role"
+                                        name="role"
+                                        value={formData.role}
+                                        onChange={handleChange}
+                                    >
+                                        <option value="ADMIN">Administrator</option>
+                                        <option value="APE">APE</option>
+                                        <option value="AER">AER</option>
+                                        <option value="STUDENT">Student</option>
+                                    </select>
+                                    {formData.originalRole === 'ADMIN' && (
+                                        <small className="form-help">
+                                            Warning: Changing the role of an administrator could impact system access.
+                                        </small>
+                                    )}
+                                </div>
+                            )}
+
+                            <div className="form-actions">
+                                <button type="submit" className="btn-save" disabled={loading}>
+                                    {loading ? 'Saving...' : 'Save'}
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn-cancel"
+                                    onClick={handleCancel}
+                                    disabled={loading}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
