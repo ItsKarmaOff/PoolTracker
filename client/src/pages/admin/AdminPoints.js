@@ -141,8 +141,8 @@ const AdminPoints = () => {
                         <table className="data-table">
                             <thead>
                                 <tr>
-                                    <th>Last Name</th>
                                     <th>First Name</th>
+                                    <th>Last Name</th>
                                     <th>Email</th>
                                     <th>Team</th>
                                     <th>Points</th>
@@ -152,8 +152,8 @@ const AdminPoints = () => {
                             <tbody>
                                 {pointsSummary.map(student => (
                                     <tr key={student.id}>
-                                        <td>{student.lastName || '-'}</td>
                                         <td>{student.firstName || '-'}</td>
+                                        <td>{student.lastName || '-'}</td>
                                         <td>{student.email}</td>
                                         <td>{student.teamName || '-'}</td>
                                         <td className={student.totalPoints >= 0 ? 'positive' : 'negative'}>
