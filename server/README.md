@@ -22,10 +22,15 @@ Pool Tracker API is a backend application designed to manage student points duri
 
 ## Installation
 
-1. Clone the repository:
+### Using Docker (Recommended)
+
+The easiest way to set up the entire application (including this API, the frontend, and database) is using Docker. See the [main README](../README.md) and [Docker documentation](../docker/README.md) for instructions.
+
+### Manual Setup
+
+1. Navigate to the server directory:
    ```bash
-   git clone git@github.com:ItsKarmaOff/PoolTracker.git
-   cd PoolTracker
+   cd PoolTracker/server
    ```
 
 2. Install dependencies:
@@ -40,7 +45,7 @@ Pool Tracker API is a backend application designed to manage student points duri
    Then edit the `.env` file with your information:
    ```
    HOST=localhost
-   PORT=3000
+   PORT=3001
    NODE_ENV=development
 
    # Database
@@ -70,7 +75,7 @@ npm run dev
 npm start
 ```
 
-The API will be accessible at: `http://localhost:3000` (or the address/port configured in your .env)
+The API will be accessible at: `http://localhost:3001` (or the address/port configured in your .env)
 
 ## Project Structure
 
@@ -118,6 +123,11 @@ server/
 - `GET /api/points/summary` - Summary of points for all students (admin)
 - `GET /api/points/user/:userId/history` - Points history for a student
 - `GET /api/points/user/:userId/total` - Total points for a student
+
+### Users
+- `GET /api/users` - List all users (admin)
+- `GET /api/users/by-role/:role` - List users by role (admin)
+- Various endpoints for managing different user roles (ADMIN, APE, AER)
 
 ## Security
 

@@ -21,6 +21,7 @@ PoolTracker is a full-stack web application that allows administrators, pedagogi
 - **Backend**: Node.js, Express
 - **Database**: MySQL
 - **Authentication**: JWT (JSON Web Tokens)
+- **Deployment**: Docker, Nginx
 
 ## Project Structure
 
@@ -28,65 +29,67 @@ PoolTracker is a full-stack web application that allows administrators, pedagogi
 PoolTracker/
 ├── client/              # React frontend application
 ├── server/              # Node.js backend API
+├── docker/              # Docker configuration files
+├── .env.example         # Example environment variables
 ├── .gitignore           # Git ignore rules
+├── docker-compose.yml   # Docker Compose configuration
+├── Makefile             # Build automation commands
 ├── LICENSE              # MIT License
 └── README.md            # This file
 ```
 
-## Installation
+## Installation & Setup
 
 ### Prerequisites
 
-- Node.js (v14+)
-- MySQL (v5.7+)
-- npm or yarn
+- Docker and Docker Compose
+- Make (optional, for using the provided commands)
 
-### Backend Setup
+### Quick Start with Docker
 
-1. Navigate to the server directory:
+1. Clone the repository:
    ```
-   cd PoolTracker/server
-   ```
-
-2. Install dependencies:
-   ```
-   npm install
+   git clone git@github.com:ItsKarmaOff/PoolTracker.git
+   cd PoolTracker
    ```
 
-3. Configure environment variables:
+2. Configure environment variables:
    ```
    cp .env.example .env
    ```
-   Then edit the `.env` file with your database credentials and other settings.
+   Then edit the `.env` file with your desired configuration settings.
 
-4. Create the database:
-   ```sql
-   CREATE DATABASE pool_tracker;
+3. Build and start the services:
    ```
+   make all
+   ```
+   
+   This will start all the required containers:
+   - Frontend (React)
+   - Backend (Node.js/Express)
+   - Database (MySQL)
+   - phpMyAdmin
 
-5. Start the server:
-   ```
-   npm run dev
-   ```
-   The API will be available at http://localhost:3001
+4. Access the application:
+   - Frontend: http://localhost:[CLIENT_PORT]
+   - API: http://localhost:[SERVER_PORT]
+   - phpMyAdmin: http://localhost:8080
 
-### Frontend Setup
+### Available Make Commands
 
-1. Navigate to the client directory:
-   ```
-   cd PoolTracker/client
-   ```
+- `make all`: Build and start all services
+- `make build`: Build Docker images
+- `make start`: Start Docker containers
+- `make stop`: Stop Docker containers
+- `make down`: Stop and remove containers
+- `make restart`: Restart all containers
+- `make logs`: Show container logs
+- `make clean`: Remove all containers, volumes, and images
+- `make help`: Show available commands
 
-2. Install dependencies:
-   ```
-   npm install
-   ```
+### Manual Setup (Without Docker)
 
-3. Start the development server:
-   ```
-   npm start
-   ```
-   The application will be available at http://localhost:3000
+See the README files in the [client](client/README.md) and [server](server/README.md) directories for instructions on setting up each component separately.
 
 ## Usage
 
@@ -102,13 +105,14 @@ On the first startup, a default admin account is created:
 
 1. **ADMIN**: Full access to all features, can manage all users
 2. **APE (Assistant Pédagogique Epitech)**: Can manage teams, students, and points
-3. **AER (Assistant Étudiant Référent)**: Can only manage points for students
+3. **AER (Assistant Epitech Régional)**: Can only manage points for students
 4. **STUDENT**: Can view their profile and team information
 
 ## Documentation
 
-- [Backend API Documentation](server/README.md)
-- [Frontend Documentation](client/README.md)
+- [Client Documentation](client/README.md)
+- [Server Documentation](server/README.md)
+- [Docker Documentation](docker/README.md)
 
 ## Contributing
 
