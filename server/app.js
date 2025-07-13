@@ -2,7 +2,7 @@
  * ┌────────────────────────────────────────────────────────────────────────────
  * │ @author                    Christophe Vandevoir
  * ├────────────────────────────────────────────────────────────────────────────
- * │ @file           app.js
+ * │ @file          app.js
  * │ @path          server/app.js
  * │ @description   app implementation
  * │ @version       1.0.0
@@ -36,7 +36,12 @@ app.use(cors());
 app.use(morgan('dev'));
 
 // Initialize the database
-initDatabase().catch(err => {
+initDatabase().then(() => {
+    // Start quest scheduler after database initialization
+    const questScheduler = require('./services/questScheduler');
+    questScheduler.start();
+    console.log('\x1b[32mQuest scheduler initialized\x1b[0m');
+}).catch(err => {
     console.error('\x1b[31mError initializing the database:\x1b[0m', err);
     process.exit(1);
 });
@@ -47,6 +52,7 @@ const teamRoutes = require('./routes/teams');
 const studentRoutes = require('./routes/students');
 const pointRoutes = require('./routes/points');
 const userRoutes = require('./routes/users');
+const questRoutes = require('./routes/quests');
 
 // Use routes
 app.use('/api/auth', authRoutes);
@@ -54,6 +60,7 @@ app.use('/api/teams', teamRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/points', pointRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/quests', questRoutes);
 
 // Default route
 app.get('/', (req, res) => {
@@ -72,6 +79,22 @@ app.use((err, req, res, next) => {
         message: 'Server error',
         error: process.env.NODE_ENV === 'development' ? err.message : undefined
     });
+});
+
+// Handle SIGINT signal
+process.on('SIGINT', () => {
+    console.log('\x1b[33mShutting down gracefully...\x1b[0m');
+    const questScheduler = require('./services/questScheduler');
+    questScheduler.stop();
+    process.exit(0);
+});
+
+// Handle SIGTERM signal (for deployment environments)
+process.on('SIGTERM', () => {
+    console.log('\x1b[33mShutting down gracefully...\x1b[0m');
+    const questScheduler = require('./services/questScheduler');
+    questScheduler.stop();
+    process.exit(0);
 });
 
 module.exports = app;
