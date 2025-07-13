@@ -2,7 +2,7 @@
  * ┌────────────────────────────────────────────────────────────────────────────
  * │ @author                    Christophe Vandevoir
  * ├────────────────────────────────────────────────────────────────────────────
- * │ @file           server.js
+ * │ @file          server.js
  * │ @path          server/server.js
  * │ @description   server implementation
  * │ @version       1.0.0
@@ -28,6 +28,33 @@ const server = app.listen(PORT, () => {
 // Handle SIGINT signal
 process.on('SIGINT', () => {
     console.log('\x1b[33mStopping the server...\x1b[0m');
+
+    // Stop quest scheduler
+    try {
+        const questScheduler = require('./services/questScheduler');
+        questScheduler.stop();
+    } catch (error) {
+        console.log('Quest scheduler already stopped or not initialized');
+    }
+
+    server.close(() => {
+        console.log('\x1b[32mServer stopped\x1b[0m');
+        process.exit(0);
+    });
+});
+
+// Handle SIGTERM signal (for deployment environments)
+process.on('SIGTERM', () => {
+    console.log('\x1b[33mReceived SIGTERM, shutting down gracefully...\x1b[0m');
+
+    // Stop quest scheduler
+    try {
+        const questScheduler = require('./services/questScheduler');
+        questScheduler.stop();
+    } catch (error) {
+        console.log('Quest scheduler already stopped or not initialized');
+    }
+
     server.close(() => {
         console.log('\x1b[32mServer stopped\x1b[0m');
         process.exit(0);
