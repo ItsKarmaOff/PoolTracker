@@ -1,0 +1,389 @@
+.quest-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.quest-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.quest-header h1 {
+    color: #0091D3;
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+}
+
+.quest-date {
+    color: #666;
+    font-size: 1.1rem;
+    text-transform: capitalize;
+}
+
+.quest-card, .no-quest-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.quest-status {
+    margin-bottom: 2rem;
+}
+
+.status-completed, .status-expired, .status-active {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.status-completed {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.status-expired {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
+.status-active {
+    background-color: #d1ecf1;
+    border: 1px solid #bee5eb;
+}
+
+.status-icon {
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+
+.status-text h3 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+}
+
+.status-text p {
+    margin: 0.25rem 0;
+    color: #666;
+}
+
+.time-remaining {
+    color: #e74c3c !important;
+    font-weight: bold;
+}
+
+.points-earned, .potential-points {
+    color: #27ae60 !important;
+    font-weight: bold;
+}
+
+.quest-details {
+    margin-bottom: 2rem;
+}
+
+.quest-title {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.quest-description {
+    color: #555;
+    line-height: 1.6;
+    font-size: 1.1rem;
+}
+
+.quest-submission {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 2px solid #0091D3;
+}
+
+.quest-submission h3 {
+    color: #0091D3;
+    margin-bottom: 1rem;
+}
+
+.submission-instructions {
+    color: #666;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.code-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.code-input-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.code-input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.code-input:focus {
+    outline: none;
+    border-color: #0091D3;
+    box-shadow: 0 0 0 3px rgba(0, 145, 211, 0.1);
+}
+
+.submit-code-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: #0091D3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+}
+
+.submit-code-btn:hover:not(:disabled) {
+    background-color: #33A7DC;
+}
+
+.submit-code-btn:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.no-quest-card {
+    text-align: center;
+    color: #666;
+}
+
+.no-quest-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.no-quest-card h2 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.no-quest-card p {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+.quest-info {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.quest-info h3 {
+    color: #0091D3;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #0091D3;
+    padding-bottom: 0.5rem;
+}
+
+.quest-info ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.quest-info li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.quest-info li:before {
+    content: "💡";
+    position: absolute;
+    left: 0;
+}
+
+.quest-info li:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    .quest-container {
+        padding: 1rem;
+    }
+
+    .quest-header h1 {
+        font-size: 2rem;
+    }
+
+    .code-input-group {
+        flex-direction: column;
+    }
+
+    .submit-code-btn {
+        width: 100%;
+    }
+
+    .status-completed, .status-expired, .status-active {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .status-icon {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Styles pour l'administration des quêtes */
+.tab-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-right: 1rem;
+}
+
+.btn-tab {
+    padding: 0.5rem 1rem;
+    border: 2px solid #0091D3;
+    background-color: white;
+    color: #0091D3;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-tab.active, .btn-tab:hover {
+    background-color: #0091D3;
+    color: white;
+}
+
+.quest-name {
+    font-weight: 500;
+    color: #0091D3;
+}
+
+.quest-description {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.quest-points {
+    font-weight: bold;
+    color: #28a745;
+}
+
+.status-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-badge.active {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-badge.inactive {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.statistics-container {
+    margin-top: 1rem;
+}
+
+.stats-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.stat-card h3 {
+    margin-bottom: 0.5rem;
+    color: #666;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #0091D3;
+    margin: 0;
+}
+
+.quest-stats-table {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.quest-stats-table h3 {
+    margin-bottom: 1rem;
+    color: #333;
+    border-bottom: 2px solid #0091D3;
+    padding-bottom: 0.5rem;
+}
+
+.completion-rate {
+    font-weight: bold;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.completion-rate.good {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.completion-rate.poor {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.config-info {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.config-info h3 {
+    margin-bottom: 1rem;
+    color: #333;
+    border-bottom: 2px solid #0091D3;
+    padding-bottom: 0.5rem;
+}
+
+.config-info p {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
