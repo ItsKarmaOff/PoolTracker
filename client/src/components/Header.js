@@ -2,7 +2,7 @@
  * ┌────────────────────────────────────────────────────────────────────────────
  * │ @author                    Christophe Vandevoir
  * ├────────────────────────────────────────────────────────────────────────────
- * │ @file           Header.js
+ * │ @file          Header.js
  * │ @path          client/src/components/Header.js
  * │ @description   Header implementation
  * │ @version       1.0.0
@@ -48,6 +48,14 @@ const Header = () => {
                         <li>
                             <Link to="/">Home</Link>
                         </li>
+
+                        {/* Quest link for students */}
+                        {!isAdmin && !isAPE && !isAER ? (
+                            <li>
+                                <Link to="/quests">Daily Quest</Link>
+                            </li>
+                        ) : null}
+
                         {isAdmin && (
                             <li>
                                 <Link to="/dashboard">Dashboard</Link>
@@ -65,9 +73,14 @@ const Header = () => {
                                     <Link to="/admin/teams">Teams</Link>
                                 </li>
                                 {canManagePoints && (
-                                    <li>
-                                        <Link to="/admin/history">History</Link>
-                                    </li>
+                                    <>
+                                        <li>
+                                            <Link to="/admin/quests">Quests</Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/admin/history">History</Link>
+                                        </li>
+                                    </>
                                 )}
                             </>
                         ) : null}
