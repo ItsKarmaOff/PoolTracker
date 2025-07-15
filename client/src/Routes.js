@@ -2,7 +2,7 @@
  * ┌────────────────────────────────────────────────────────────────────────────
  * │ @author                    Christophe Vandevoir
  * ├────────────────────────────────────────────────────────────────────────────
- * │ @file           Routes.js
+ * │ @file          Routes.js
  * │ @path          client/src/Routes.js
  * │ @description   Routes implementation
  * │ @version       1.0.0
@@ -25,6 +25,7 @@ import Login from './pages/Login';
 import HomePage from './pages/HomePage';
 import StudentProfile from './pages/StudentProfile';
 import TeamDetails from './pages/TeamDetails';
+import StudentQuests from './pages/StudentQuests';
 import Dashboard from './pages/Dashboard';
 
 // Admin pages
@@ -33,6 +34,7 @@ import AdminStudents from './pages/admin/AdminStudents';
 import AdminTeams from './pages/admin/AdminTeams';
 import AdminPoints from './pages/admin/AdminPoints';
 import AdminHistory from './pages/admin/AdminHistory';
+import AdminQuests from './pages/admin/AdminQuests';
 
 // Protected route component with role-based access
 const ProtectedRoute = ({ children, requiredRoles = [] }) => {
@@ -92,6 +94,16 @@ const AppRoutes = () => {
                 }
             />
 
+            {/* Quest route - accessible by all authenticated users */}
+            <Route
+                path="/quests"
+                element={
+                    <ProtectedRoute>
+                        <StudentQuests />
+                    </ProtectedRoute>
+                }
+            />
+
             {/* Dashboard route - only accessible by ADMIN */}
             <Route
                 path="/dashboard"
@@ -146,6 +158,16 @@ const AppRoutes = () => {
                 element={
                     <ProtectedRoute requiredRoles={['ADMIN', 'APE', 'AER']}>
                         <AdminHistory />
+                    </ProtectedRoute>
+                }
+            />
+
+            {/* Quest management - accessible by ADMIN, APE, and AER */}
+            <Route
+                path="/admin/quests"
+                element={
+                    <ProtectedRoute requiredRoles={['ADMIN', 'APE', 'AER']}>
+                        <AdminQuests />
                     </ProtectedRoute>
                 }
             />
