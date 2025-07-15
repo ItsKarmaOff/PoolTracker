@@ -2,7 +2,7 @@
  * ┌────────────────────────────────────────────────────────────────────────────
  * │ @author                    Christophe Vandevoir
  * ├────────────────────────────────────────────────────────────────────────────
- * │ @file           api.js
+ * │ @file          api.js
  * │ @path          client/src/services/api.js
  * │ @description   api implementation
  * │ @version       1.0.0
@@ -229,6 +229,63 @@ export const pointService = {
     getAllPointsHistory: async () => {
         const response = await api.get('/points/history');
         return response.data.history;
+    }
+};
+
+export const questService = {
+    getDailyQuest: async () => {
+        const response = await api.get('/quests/daily');
+        return response.data.quest;
+    },
+
+    submitQuestCode: async (submissionData) => {
+        const response = await api.post('/quests/submit', submissionData);
+        return response.data;
+    },
+
+    getAllQuests: async () => {
+        const response = await api.get('/quests');
+        return response.data.quests;
+    },
+
+    getQuestById: async (id) => {
+        const response = await api.get(`/quests/${id}`);
+        return response.data.quest;
+    },
+
+    createQuest: async (questData) => {
+        const response = await api.post('/quests', questData);
+        return response.data;
+    },
+
+    updateQuest: async (id, questData) => {
+        const response = await api.put(`/quests/${id}`, questData);
+        return response.data;
+    },
+
+    deleteQuest: async (id) => {
+        const response = await api.delete(`/quests/${id}`);
+        return response.data;
+    },
+
+    getStatistics: async () => {
+        const response = await api.get('/quests/statistics');
+        return response.data.statistics;
+    },
+
+    getConfig: async () => {
+        const response = await api.get('/quests/config');
+        return response.data.config;
+    },
+
+    updateConfig: async (configData) => {
+        const response = await api.put('/quests/config', configData);
+        return response.data;
+    },
+
+    assignDailyQuests: async () => {
+        const response = await api.post('/quests/assign');
+        return response.data;
     }
 };
 
